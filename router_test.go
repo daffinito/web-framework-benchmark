@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 	"github.com/labstack/echo/v4"
 )
 
@@ -624,4 +625,38 @@ func BenchmarkGinParseAPI(b *testing.B) {
 	g := gin.New()
 	loadGinRoutes(g, parseAPI)
 	benchmarkRoutes(b, g, parseAPI)
+}
+
+func loadMuxRoutes(m *mux.Router, routes []*Route) {
+	for _, r := range routes {
+		m.HandleFunc(r.Path, muxHandler)
+	}
+}
+
+func muxHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
+}
+
+func BenchmarkMuxStatic(b *testing.B) {
+	m := mux.NewRouter()
+	loadMuxRoutes(m, static)
+	benchmarkRoutes(b, m, static)
+}
+
+func BenchmarkMuxGitHubAPI(b *testing.B) {
+	m := mux.NewRouter()
+	loadMuxRoutes(m, static)
+	benchmarkRoutes(b, m, githubAPI)
+}
+
+func BenchmarkMuxGplusAPI(b *testing.B) {
+	m := mux.NewRouter()
+	loadMuxRoutes(m, static)
+	benchmarkRoutes(b, m, gplusAPI)
+}
+
+func BenchmarkMuxParseAPI(b *testing.B) {
+	m := mux.NewRouter()
+	loadMuxRoutes(m, static)
+	benchmarkRoutes(b, m, parseAPI)
 }
