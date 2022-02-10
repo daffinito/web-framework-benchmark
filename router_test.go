@@ -645,18 +645,18 @@ func BenchmarkMuxStatic(b *testing.B) {
 
 func BenchmarkMuxGitHubAPI(b *testing.B) {
 	m := mux.NewRouter()
-	loadMuxRoutes(m, static)
+	loadMuxRoutes(m, githubAPI)
 	benchmarkRoutes(b, m, githubAPI)
 }
 
 func BenchmarkMuxGplusAPI(b *testing.B) {
 	m := mux.NewRouter()
-	loadMuxRoutes(m, static)
+	loadMuxRoutes(m, gplusAPI)
 	benchmarkRoutes(b, m, gplusAPI)
 }
 
 func BenchmarkMuxParseAPI(b *testing.B) {
 	m := mux.NewRouter()
-	loadMuxRoutes(m, static)
+	loadMuxRoutes(m, parseAPI)
 	benchmarkRoutes(b, m, parseAPI)
 }
